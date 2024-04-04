@@ -1,0 +1,61 @@
+[gd_scene load_steps=7 format=3 uid="uid://u0g1wk1gq1f5"]
+
+[ext_resource type="Script" path="res://Scripts/pipes.gd" id="1_v05vx"]
+[ext_resource type="Texture2D" uid="uid://cvmhyu86ny3pc" path="res://Art/EVENBETTER_PIPE.png" id="2_c1bl4"]
+[ext_resource type="AudioStream" uid="uid://wuv12cby4lsh" path="res://Sounds/PointUpdated.mp3" id="3_k3c1h"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_flwxo"]
+size = Vector2(33.2143, 131.214)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_56e4l"]
+size = Vector2(33.2143, 134.571)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_76bbk"]
+size = Vector2(26, 60.5)
+
+[node name="Pipes" type="CharacterBody2D"]
+visibility_layer = 1023
+scale = Vector2(2.8, 2.8)
+script = ExtResource("1_v05vx")
+
+[node name="TopPipe" type="Sprite2D" parent="."]
+position = Vector2(0, -116.25)
+scale = Vector2(1, 1.28309)
+texture = ExtResource("2_c1bl4")
+flip_v = true
+
+[node name="BottomPipe" type="Sprite2D" parent="."]
+position = Vector2(0, 149)
+scale = Vector2(1, 1.76471)
+texture = ExtResource("2_c1bl4")
+
+[node name="BP" type="Area2D" parent="."]
+
+[node name="BottomPipeHitBox" type="CollisionShape2D" parent="BP"]
+position = Vector2(-0.178574, 97.3928)
+shape = SubResource("RectangleShape2D_flwxo")
+
+[node name="UP" type="Area2D" parent="."]
+
+[node name="TopPipeHitBox" type="CollisionShape2D" parent="UP"]
+position = Vector2(-0.178574, -98.7143)
+shape = SubResource("RectangleShape2D_56e4l")
+
+[node name="ScoreDetection" type="Area2D" parent="."]
+
+[node name="updateScore" type="CollisionShape2D" parent="ScoreDetection"]
+position = Vector2(0, 0.75)
+shape = SubResource("RectangleShape2D_76bbk")
+
+[node name="ScoreUpdated" type="AudioStreamPlayer2D" parent="ScoreDetection"]
+stream = ExtResource("3_k3c1h")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 30.0
+
+[connection signal="area_entered" from="BP" to="." method="_on_bp_area_entered"]
+[connection signal="body_entered" from="BP" to="." method="_on_bp_body_entered"]
+[connection signal="area_entered" from="UP" to="." method="_on_up_area_entered"]
+[connection signal="body_entered" from="UP" to="." method="_on_up_body_entered"]
+[connection signal="body_entered" from="ScoreDetection" to="." method="_on_score_detection_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
