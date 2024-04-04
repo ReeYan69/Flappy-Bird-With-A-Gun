@@ -1,0 +1,93 @@
+[gd_scene load_steps=15 format=3 uid="uid://cklpfdtmpab32"]
+
+[ext_resource type="Script" path="res://Scripts/flappy.gd" id="1_rsrmm"]
+[ext_resource type="Texture2D" uid="uid://da7tie5qdk2aq" path="res://Art/bird_sheet.png" id="1_sid6i"]
+[ext_resource type="Texture2D" uid="uid://clsya2cmyf7w4" path="res://Art/gun2.png" id="4_fe7om"]
+[ext_resource type="AudioStream" uid="uid://byn56wj36qyb" path="res://Sounds/explosion3.mp3" id="5_mrj7y"]
+[ext_resource type="AudioStream" uid="uid://c7e8km75flt2d" path="res://Sounds/explosion2.mp3" id="6_ghc11"]
+[ext_resource type="AudioStream" uid="uid://osu8ucgr8c8h" path="res://Sounds/explosion.mp3" id="7_4w27p"]
+[ext_resource type="AudioStream" uid="uid://ds04to5f6bagl" path="res://Sounds/shot.mp3" id="7_wtb5d"]
+[ext_resource type="AudioStream" uid="uid://cdeoyy1f6mxt" path="res://Sounds/flap.mp3" id="8_figwc"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_iutru"]
+radius = 59.7746
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nhiks"]
+atlas = ExtResource("1_sid6i")
+region = Rect2(0, 484, 28, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_psh6w"]
+atlas = ExtResource("1_sid6i")
+region = Rect2(28, 484, 28, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ukdo"]
+atlas = ExtResource("1_sid6i")
+region = Rect2(56, 484, 28, 22)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_akdpd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nhiks")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_psh6w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ukdo")
+}],
+"loop": true,
+"name": &"Flying",
+"speed": 12.0
+}]
+
+[sub_resource type="GDScript" id="GDScript_j0qnd"]
+script/source = "extends Node2D
+"
+
+[node name="Flappy" type="CharacterBody2D"]
+visibility_layer = 1022
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_rsrmm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_iutru")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(23, -17)
+rotation = -0.0174533
+scale = Vector2(10, 10)
+sprite_frames = SubResource("SpriteFrames_akdpd")
+animation = &"Flying"
+frame_progress = 0.590847
+script = SubResource("GDScript_j0qnd")
+
+[node name="bullet_spawn" type="Marker2D" parent="."]
+position = Vector2(273.333, -46.6667)
+
+[node name="DeathSounds" type="Node2D" parent="."]
+
+[node name="Explosion3" type="AudioStreamPlayer2D" parent="DeathSounds"]
+stream = ExtResource("5_mrj7y")
+
+[node name="Explosion2" type="AudioStreamPlayer2D" parent="DeathSounds"]
+stream = ExtResource("6_ghc11")
+
+[node name="Explosion1" type="AudioStreamPlayer2D" parent="DeathSounds"]
+stream = ExtResource("7_4w27p")
+
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="flap" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("8_figwc")
+
+[node name="shot" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("7_wtb5d")
+volume_db = -10.0
+attenuation = 1.86607
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(160, -18)
+scale = Vector2(0.932255, 0.724362)
+texture = ExtResource("4_fe7om")
