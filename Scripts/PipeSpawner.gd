@@ -1,6 +1,6 @@
 extends Node2D
 
-var max = 500
+var max = 100000
 var PipeScene = load("res://Scenes/pipes.tscn")
 var Pipe = PipeScene.instantiate()
 var rng = RandomNumberGenerator.new()
